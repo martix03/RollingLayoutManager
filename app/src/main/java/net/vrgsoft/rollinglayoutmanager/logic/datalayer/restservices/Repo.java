@@ -98,8 +98,8 @@ public class Repo {
     private Long mOpenIssuesCount;
     @SerializedName("owner")
     private Owner mOwner;
-   // @SerializedName("permissions")
-   // private Permissions mPermissions;
+    // @SerializedName("permissions")
+    // private Permissions mPermissions;
     @SerializedName("private")
     private Boolean mPrivate;
     @SerializedName("pulls_url")

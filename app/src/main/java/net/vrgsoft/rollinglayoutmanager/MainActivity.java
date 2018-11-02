@@ -3,6 +3,7 @@ package net.vrgsoft.rollinglayoutmanager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import net.vrgsoft.layoutmanager.RollingLayoutManager;
 import net.vrgsoft.rollinglayoutmanager.logic.datalayer.restservices.Repo;
@@ -25,8 +26,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         recyclerView = findViewById(R.id.recycler_view);
 
         rollingLayoutManager = new RollingLayoutManager(this);
-
+//        SimpleAdapter simpleAdapter = new SimpleAdapter(createTestData(3));
+//        recyclerView.setLayoutManager(rollingLayoutManager);
+//        recyclerView.setAdapter(simpleAdapter);
         presenter = new Presenter();
+        presenter.subscribe(this);
         presenter.inviaNickname("chemickypes", this);
     }
 
@@ -51,18 +55,18 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.subscribe(this);
 
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         presenter.unsubscribe();
     }
 
     @Override
     public void repo_presenti(List<Repo> lista) {
+        Log.e("REPO PRESENTI MAIN", lista.toString());
         SimpleAdapter simpleAdapter = new SimpleAdapter(createData(lista));
         recyclerView.setLayoutManager(rollingLayoutManager);
         recyclerView.setAdapter(simpleAdapter);
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void repo_non_presenti() {
-
+        Log.e("REPO PRESENTI MAIN", "vvv");
     }
 
     @Override

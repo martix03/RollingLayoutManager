@@ -1,6 +1,7 @@
 package net.vrgsoft.rollinglayoutmanager.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import net.vrgsoft.rollinglayoutmanager.logic.ILogic;
 import net.vrgsoft.rollinglayoutmanager.logic.Logic;

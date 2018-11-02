@@ -21,7 +21,7 @@ public class GetDataDB {
 
     static final int DATABASE_VERSIONE = 2;
 
-     static final String TABELLA_REPO_CREAZIONE = "CREATE TABLE repo (id integer primary key autoincrement, " +
+    static final String TABELLA_REPO_CREAZIONE = "CREATE TABLE repo (id integer primary key autoincrement, " +
             "name text not null, language text not null, id_github text not null, id_owner text not null, nickname_owner text not null);";
 
     final Context context;
