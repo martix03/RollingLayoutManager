@@ -24,32 +24,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         setContentView(R.layout.activity_sample);
 
         recyclerView = findViewById(R.id.recycler_view);
-
         rollingLayoutManager = new RollingLayoutManager(this);
-//        SimpleAdapter simpleAdapter = new SimpleAdapter(createTestData(3));
-//        recyclerView.setLayoutManager(rollingLayoutManager);
-//        recyclerView.setAdapter(simpleAdapter);
+
         presenter = new Presenter();
         presenter.subscribe(this);
         presenter.inviaNickname("chemickypes", this);
-    }
-
-    private List<String> createTestData(int count) {
-        List<String> strings = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            strings.add(UUID.randomUUID().toString());
-        }
-
-        return strings;
-    }
-
-    private List<String> createData(List<Repo> lista) {
-        List<String> strings = new ArrayList<>();
-        for (int i = 0; i < lista.size(); i++) {
-            strings.add(lista.get(i).getName());
-        }
-
-        return strings;
     }
 
     @Override
@@ -66,15 +45,13 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void repo_presenti(List<Repo> lista) {
-        Log.e("REPO PRESENTI MAIN", lista.toString());
-        SimpleAdapter simpleAdapter = new SimpleAdapter(createData(lista));
+        SimpleAdapter simpleAdapter = new SimpleAdapter(lista);
         recyclerView.setLayoutManager(rollingLayoutManager);
         recyclerView.setAdapter(simpleAdapter);
     }
 
     @Override
     public void repo_non_presenti() {
-        Log.e("REPO PRESENTI MAIN", "vvv");
     }
 
     @Override

@@ -6,22 +6,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.vrgsoft.rollinglayoutmanager.logic.datalayer.restservices.Repo;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleViewHolder> {
-    private List<String> mData;
+    private List<Repo> repo;
 
     public SimpleAdapter() {
-        this(new ArrayList<String>());
+        this(new ArrayList<Repo>());
     }
 
-    public SimpleAdapter(List<String> data) {
-        mData = data;
+    public SimpleAdapter(List<Repo> data) {
+        repo = data;
+
     }
 
-    public void setData(List<String> data) {
-        mData = data;
+    public void setData(List<Repo> data) {
+        repo = data;
     }
 
     @Override
@@ -33,24 +36,30 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
-        holder.bind(mData.get(position));
+        holder.bind(repo.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return repo.size();
     }
 
-    class SimpleViewHolder extends RecyclerView.ViewHolder{
-        private TextView mTextView;
+    class SimpleViewHolder extends RecyclerView.ViewHolder {
+        private TextView nome_textview;
+        private TextView language_textview;
 
         public SimpleViewHolder(View itemView) {
             super(itemView);
-            mTextView = itemView.findViewById(R.id.title);
+            nome_textview = itemView.findViewById(R.id.title);
+            language_textview = itemView.findViewById(R.id.language);
         }
 
-        public void bind(String data){
-            mTextView.setText(data);
+        public void bind(Repo data) {
+            nome_textview.setText(data.getName());
+            if (data.getLanguage().toString() != null)
+                language_textview.setText(data.getLanguage().toString());
+            else
+                language_textview.setText("Undefined");
         }
     }
 }
