@@ -3,7 +3,10 @@ package net.vrgsoft.rollinglayoutmanager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+
 import net.vrgsoft.layoutmanager.RollingLayoutManager;
+import net.vrgsoft.rollinglayoutmanager.logic.datalayer.restservices.Repo;
+import net.vrgsoft.rollinglayoutmanager.presenter.Presenter;
 import net.vrgsoft.rollinglayoutmanager.view.IMainActivity;
 
 import java.util.ArrayList;
@@ -11,19 +14,20 @@ import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
-
+    Presenter presenter;
+    RecyclerView recyclerView;
+    RollingLayoutManager rollingLayoutManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
 
-        RollingLayoutManager rollingLayoutManager = new RollingLayoutManager(this);
-        SimpleAdapter simpleAdapter = new SimpleAdapter(createTestData(2));
+        rollingLayoutManager = new RollingLayoutManager(this);
 
-        recyclerView.setLayoutManager(rollingLayoutManager);
-        recyclerView.setAdapter(simpleAdapter);
+        presenter = new Presenter();
+        presenter.inviaNickname("chemickypes", this);
     }
 
     private List<String> createTestData(int count) {
@@ -35,10 +39,33 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         return strings;
     }
 
+    private List<String> createData(List<Repo> lista) {
+        List<String> strings = new ArrayList<>();
+        for (int i = 0; i < lista.size(); i++) {
+            strings.add(lista.get(i).getName());
+        }
+
+        return strings;
+    }
 
     @Override
-    public void repo_presenti() {
+    protected void onStart() {
+        super.onStart();
+        presenter.subscribe(this);
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.unsubscribe();
+    }
+
+    @Override
+    public void repo_presenti(List<Repo> lista) {
+        SimpleAdapter simpleAdapter = new SimpleAdapter(createData(lista));
+        recyclerView.setLayoutManager(rollingLayoutManager);
+        recyclerView.setAdapter(simpleAdapter);
     }
 
     @Override
